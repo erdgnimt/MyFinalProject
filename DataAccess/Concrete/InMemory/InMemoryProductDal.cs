@@ -10,6 +10,9 @@ namespace DataAccess.Concrete.InMemory
     public class InMemoryProductDal : IProductDal
     {
         List<Product> _products;
+
+        List<Category> _categories;
+
         public InMemoryProductDal()
         {
             _products = new List<Product>
@@ -18,7 +21,7 @@ namespace DataAccess.Concrete.InMemory
                 new Product{ProductId=2,CategoryId=2, ProductName="Mouse", UnitsInStock=50,UnitPrice=5},
                 new Product{ProductId=3,CategoryId=3, ProductName="Ekran", UnitsInStock = 120,UnitPrice=15},
                 new Product{ProductId=4,CategoryId=4,ProductName="Hdmi",UnitsInStock=20,UnitPrice=30}
-            };
+            };    
         }
         public void Add(Product product)
         {
@@ -34,6 +37,12 @@ namespace DataAccess.Concrete.InMemory
         public List<Product> GetAll()
         {
             return _products;
+        }
+
+        public List<Product> GetAllByCategoryId(int categoryId)
+        {
+            return _products.Where(p => p.CategoryId == categoryId).ToList();
+
         }
 
         public void Update(Product product)

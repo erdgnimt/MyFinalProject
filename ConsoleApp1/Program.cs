@@ -1,12 +1,26 @@
-﻿using System;
+﻿using Business.Concrete;
+using DataAccess.Concrete.InMemory;
+using System;
 
-namespace ConsoleApp1
+namespace ConsoleUI
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ProductManager productManager = new ProductManager(new InMemoryProductDal());
+            foreach (var item in productManager.GetAll())
+            {
+                Console.WriteLine(item.ProductName);
+            }
+
+            Console.WriteLine("------------------------------------------------------");
+
+            CategoryManager categoryManager = new CategoryManager(new InMemoryCategoryDal());
+            foreach (var nameitem in categoryManager.GetAll())
+            {
+                Console.WriteLine(nameitem.CategoryName);
+            }
         }
     }
 }
