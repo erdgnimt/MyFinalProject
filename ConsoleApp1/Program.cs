@@ -9,14 +9,23 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            ProductManager productManager = new ProductManager(new EfProductDal());
-            //Console.WriteLine(productManager.GetById(2).ProductName);
+            //ProductManager productManager = new ProductManager(new EfProductDal());
+            //Console.WriteLine(productManager.GetById(2).Data);
 
 
-            foreach (var item in productManager.GetProductDetails())
-            {
-                Console.WriteLine($"{item.ProductId}--{item.ProductName}--{item.CategoryName}--{item.UnitsInStock}");
-            }
+            //var result = productManager.GetProductDetails();
+            //if (result.Success)
+            //{
+            //    foreach (var item in result.Data)
+            //    {
+            //        Console.WriteLine($"{item.ProductId}--{item.ProductName}--{item.CategoryName}--{item.UnitsInStock}");
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine(result.Message);
+            //}
+
 
             //foreach (var item in productManager.GetAllByCategoryId(6))
             //{
@@ -30,13 +39,31 @@ namespace ConsoleUI
             //}
 
 
-            CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
-            //foreach (var item in categoryManager.GetAll())
+            //CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+
+            //var resultCategory = categoryManager.GetAll();
+            //if (resultCategory.Success)
             //{
-            //    Console.WriteLine(item.CategoryName);
+            //    foreach (var item in resultCategory.Data)
+            //    {
+            //        Console.WriteLine(item.CategoryName);
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine(resultCategory.Message); 
             //}
 
-            Console.WriteLine(categoryManager.GetById(2).CategoryName);
+            //var result = categoryManager.GetById(2);
+            //if (result.Success)
+            //{
+            //    Console.WriteLine(result.Data.CategoryName); 
+            //}
+            //else
+            //{
+            //    Console.WriteLine(result.Message);
+            //}
+            //Console.WriteLine();
         }
     }
 }
