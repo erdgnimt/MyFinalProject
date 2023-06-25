@@ -45,7 +45,7 @@ namespace Business.Concrete
 
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
-            
+
         }
 
         public IDataResult<List<Product>> GetAllByCategoryId(int id)
