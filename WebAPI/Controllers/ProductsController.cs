@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace WebAPI.Controllers
         {
             _productService = productService;
         }
+        
         [HttpPost("add")]
         public IActionResult Add(Product product)
         {

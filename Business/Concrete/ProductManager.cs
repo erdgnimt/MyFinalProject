@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspect.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -18,16 +19,17 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
-        ICategoryService _categoryService; 
+        ICategoryService _categoryService;
         public ProductManager(IProductDal productDal, ICategoryService categoryService)
         {
             _productDal = productDal;
             _categoryService = categoryService;
         }
+        [SecuredOperation("product.add")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            var result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.ProductId), CheckIfProductNameExists(product.ProductName),CheckIfCategoryLimitExceded());
+            var result = BusinessRules.Run(CheckIfProductCountOfCategoryCorrect(product.ProductId), CheckIfProductNameExists(product.ProductName), CheckIfCategoryLimitExceded());
             if (result != null)
             {
                 return result;
@@ -35,23 +37,19 @@ namespace Business.Concrete
             }
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
-
-
-
-
         }
 
         public IDataResult<List<Product>> GetAll()
         {
-            //if (DateTime.Now.Hour == 22)
-            //{
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductListed);
-            //}
-            //else
-            //{
+            if (DateTime.Now.Hour == 22)
+            {
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            }
+            else
+            {
+                return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductListed);
 
-            //    return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
-            //}
+            }
 
         }
 
@@ -59,12 +57,12 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 22)
             {
-                return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id), Messages.ProductListed);
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
             else
             {
+                return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id), Messages.ProductListed);
 
-                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
         }
 
@@ -72,27 +70,25 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 22)
             {
-                return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max), Messages.ProductListed);
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
             else
             {
+                return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.UnitPrice >= min && p.UnitPrice <= max), Messages.ProductListed);
 
-                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
-
-
         }
 
         public IDataResult<Product> GetById(int id)
         {
             if (DateTime.Now.Hour == 22)
             {
-                return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == id), Messages.ProductListed);
+                return new ErrorDataResult<Product>(Messages.MaintenanceTime);
             }
             else
             {
+                return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == id), Messages.ProductListed);
 
-                return new ErrorDataResult<Product>(Messages.MaintenanceTime);
             }
         }
 
@@ -101,12 +97,11 @@ namespace Business.Concrete
 
             if (DateTime.Now.Hour == 22)
             {
-                return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails(), Messages.ProductListed);
+                return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
             }
             else
             {
-
-                return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
+                return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails(), Messages.ProductListed);
             }
 
         }

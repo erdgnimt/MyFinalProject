@@ -22,12 +22,13 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 22)
             {
-                _categoryDal.Add(category);
-                return new SuccessResult(Messages.CategoryAdded);
+                return new ErrorResult(Messages.MaintenanceTime);
             }
             else
             {
-                return new ErrorResult(Messages.MaintenanceTime);
+                _categoryDal.Add(category);
+                return new SuccessResult(Messages.CategoryAdded);
+
             }
         }
 
@@ -35,25 +36,26 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 1)
             {
-                return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(),Messages.CategoryListed);
+                return new ErrorDataResult<List<Category>>(Messages.MaintenanceTime);
             }
             else
             {
-                return new ErrorDataResult<List<Category>>(Messages.MaintenanceTime);
+                return new SuccessDataResult<List<Category>>(_categoryDal.GetAll(), Messages.CategoryListed);
+
             }
-            
+
         }
 
         public IDataResult<Category> GetById(int id)
         {
             if (DateTime.Now.Hour == 14)
             {
-                return new SuccessDataResult<Category>(_categoryDal.Get(c => c.CategoryId == id), Messages.CategoryListed);
+                return new ErrorDataResult<Category>(Messages.MaintenanceTime);
             }
             else
             {
-                return new ErrorDataResult<Category>(Messages.MaintenanceTime);
-            }          
+                return new SuccessDataResult<Category>(_categoryDal.Get(c => c.CategoryId == id), Messages.CategoryListed);
+            }
         }
     }
 }
