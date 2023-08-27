@@ -20,7 +20,7 @@ namespace Business.Concrete
 
         public IResult Add(Category category)
         {
-            if (DateTime.Now.Hour == 22)
+            if (DateTime.Now.Hour == 6)
             {
                 return new ErrorResult(Messages.MaintenanceTime);
             }
@@ -34,7 +34,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Category>> GetAll()
         {
-            if (DateTime.Now.Hour == 1)
+            if (DateTime.Now.Hour == 6)
             {
                 return new ErrorDataResult<List<Category>>(Messages.MaintenanceTime);
             }
@@ -48,7 +48,7 @@ namespace Business.Concrete
 
         public IDataResult<Category> GetById(int id)
         {
-            if (DateTime.Now.Hour == 14)
+            if (DateTime.Now.Hour == 6)
             {
                 return new ErrorDataResult<Category>(Messages.MaintenanceTime);
             }
